@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>DLVillainMaker</title>
+</head>
+<body>
+    <h1>Welcome to Disneyland you Evil Fiend</h1>
+    <h3>Create your own villain by frollicking around the park!</h3>
+    <p>Go on rides to unlock spells, weapons, and accessories to aid you in your villainous deeds! Repeating rides adds additional PP to each weapon or spell. Gain additional base HP everytime you eat and add one 10 HP health potion to your inventory everytime you have a fun little beverage. Gain XP for waiting in lines, interacting with characters, and taking in a show or parade, you will level up and add 2 attack points to your base attack every 50 XP.</p>
+<div id="XP Tracker">
+    <h4>XP Tracker</h4>
+    <p>Earn 1 XP for every minute you wait in line, 10 XP for watching a show or parade, and 20 XP for interacting with characters.</p>
+    <p>Current XP: 0</p>
+    <p>Current Level: 1</p>
+    <p>Current Base Attack: 5</p>
+</div>
+<div id="HP Tracker">
+    <h4>HP Tracker</h4>
+    <p>A snack is worth 10 HP, a quick service meal is worth 15 HP, and a sit-down meal is worth 20 HP.</p>
+    <form id="HPMeals">
+        <label for="snackQuantity">Snacks:</label>
+        <input type="number" id="snackQuantity" name="snackQuantity" min="0" value="0">
+        <label for="quickServiceQuantity">Quick Service Meals:</label>
+        <input type="number" id="quickServiceQuantity" name="quickServiceQuantity" min="0" value="0">
+        <label for="sitDownQuantity">Sit-Down Meals:</label>
+        <input type="number" id="sitDownQuantity" name="sitDownQuantity" min="0" value="0">
+        <label id="currentHP">Current HP: </label>
+        <script>
+            function updateHP() {
+                const snack = parseInt(document.getElementById('snackQuantity').value) || 0;
+                const quickService = parseInt(document.getElementById('quickServiceQuantity').value) || 0;
+                const sitDown = parseInt(document.getElementById('sitDownQuantity').value) || 0;
+                const totalHP = (snack * 10) + (quickService * 15) + (sitDown * 20);
+                document.getElementById('currentHP').innerText = `Current HP: ${totalHP}`;
+            }
+
+            document.getElementById('HPMeals').addEventListener('input', updateHP);
+        </script>
+    </form>
+    <form id="HealthPotions">
+        <label for="healthPotionQuantity">Health Potions (10 HP each):</label>
+        <input type="number" id="healthPotionQuantity" name="healthPotionQuantity" min="0" value="0">
+    </form>
+</div>
+<div id="Inventory">
+    <h4>Inventory</h4>
+    <p>Spells:</p>
+    <ul>
+        <li>Change Own Form: Take quarter damage for one turn</li>
+        <form id="ChangeOwnForm">
+            <label for="rocketsQuantity">Revolving Rockets:</label>
+            <input type="number" id="rocketsQuantity" name="rocketsQuantity" min="0" value="0"> 
+            <label for="matterhornQuantity">Matterhorn Bobsleds:</label>
+            <input type="number" id="matterhornQuantity" name="matterhornQuantity" min="0" value="0"> 
+            <label for="trainQuantity">Disneyland Railroad:</label>
+            <input type="number" id="trainQuantity" name="trainQuantity" min="0" value="0"> 
+            <label for="ChangeOwnFormPP">PP:</label>
+            <input type="text" id="ChangeOwnFormPP" name="ChangeOwnFormPP" readonly>
+            <script>
+                function updateChangeOwnFormPP() {
+                    const rockets = parseInt(document.getElementById('rocketsQuantity').value) || 0;
+                    const matterhorn = parseInt(document.getElementById('matterhornQuantity').value) || 0;
+                    const train = parseInt(document.getElementById('trainQuantity').value) || 0;
+                    const pp = rockets + matterhorn + train;
+                    document.getElementById('ChangeOwnFormPP').value = pp;
+                }
+
+                document.getElementById('rocketsQuantity').addEventListener('input', updateChangeOwnFormPP);
+                document.getElementById('matterhornQuantity').addEventListener('input', updateChangeOwnFormPP);
+                document.getElementById('trainQuantity').addEventListener('input', updateChangeOwnFormPP);
+
+                // Initialize PP on page load
+                updateChangeOwnFormPP();
+            </script>
+        </form>
+        <li>Coma Curse: Put your enemies into a deep slumber for one turn</li>
+        <form id="ComaCurse">
+            <label for="peterPanQuantity">Peter Pan:</label>
+            <input type="number" id="peterPanQuantity" name="peterPanQuantity" min="0" value="0">
+            <label for="pinnochioQuantity">Pinocchio:</label>
+            <input type="number" id="pinnochioQuantity" name="pinnochioQuantity" min="0" value="0">
+            <label for="toadQuantity">Mr. Toad:</label>
+            <input type="number" id="toadQuantity" name="toadQuantity" min="0" value="0">
+            <label for="ComaCursePP">PP:</label>
+            <input type="text" id="ComaCursePP" name="ComaCursePP" readonly>
+            <script>
+                function updateComaCursePP() {
+                    const peterPan = parseInt(document.getElementById('peterPanQuantity').value) || 0;
+                    const pinnochio = parseInt(document.getElementById('pinnochioQuantity').value) || 0;
+                    const toad = parseInt(document.getElementById('toadQuantity').value) || 0;
+                    const pp = peterPan + pinnochio + toad;
+                    document.getElementById('ComaCursePP').value = pp;
+                }
+
+                document.getElementById('peterPanQuantity').addEventListener('input', updateComaCursePP);
+                document.getElementById('pinnochioQuantity').addEventListener('input', updateComaCursePP);
+                document.getElementById('toadQuantity').addEventListener('input', updateComaCursePP);
+
+                // Initialize PP on page load
+                updateComaCursePP();
+            </script>
+        </form>
+        <li>Cult Inspiring Charisma: Take half damage from all sources for one turn</li>
+        <form id="CultInspiringCharisma">
+            <label for="towerQuantity">Tower of Terror/Guardians Ride:</label>
+            <input type="number" id="towerQuantity" name="towerQuantity" min="0" value="0">
+            <label for="spidermanQuantity">Spiderman:</label>
+            <input type="number" id="spidermanQuantity" name="spidermanQuantity" min="0" value="0">
+            <label for="breadQuantity">Bread Tour:</label>
+            <input type="number" id="breadQuantity" name="breadQuantity" min="0" value="0">
+            <label for="cultInspiringCharismaPP">PP:</label>
+            <input type="text" id="cultInspiringCharismaPP" name="cultInspiringCharismaPP" readonly>
+            <script>
+                function updateCultInspiringCharismaPP() {
+                    const tower = parseInt(document.getElementById('towerQuantity').value) || 0;
+                    const spiderman = parseInt(document.getElementById('spidermanQuantity').value) || 0;
+                    const bread = parseInt(document.getElementById('breadQuantity').value) || 0;
+                    const pp = tower + spiderman + bread;
+                    document.getElementById('cultInspiringCharismaPP').value = pp;
+                }
+
+                document.getElementById('towerQuantity').addEventListener('input', updateCultInspiringCharismaPP);
+                document.getElementById('spidermanQuantity').addEventListener('input', updateCultInspiringCharismaPP);
+                document.getElementById('breadQuantity').addEventListener('input', updateCultInspiringCharismaPP);
+
+                // Initialize PP on page load
+                updateCultInspiringCharismaPP();
+            </script>
+        </form>
+        <li>Turn into a Dragon: Double the damage of your next attack</li>
+        <form id="TurnIntoDragon">
+            <label for="fantasmicQuantity">Fantasmic:</label>
+            <input type="number" id="fantasmicQuantity" name="fantasmicQuantity" min="0" value="0">
+            <label for="indianaJonesQuantity">Indiana Jones:</label>
+            <input type="number" id="indianaJonesQuantity" name="indianaJonesQuantity" min="0" value="0">
+            <label for="mansionQuantity">Haunted Mansion:</label>
+            <input type="number" id="mansionQuantity" name="mansionQuantity" min="0" value="0">
+            <label for="turnIntoDragonPP">PP:</label>
+            <input type="text" id="turnIntoDragonPP" name="turnIntoDragonPP" readonly>
+            <script>
+                function updateTurnIntoDragonPP() {
+                    const fantasmic = parseInt(document.getElementById('fantasmicQuantity').value) || 0;
+                    const indianaJones = parseInt(document.getElementById('indianaJonesQuantity').value) || 0;
+                    const mansion = parseInt(document.getElementById('mansionQuantity').value) || 0;
+                    const pp = fantasmic + indianaJones + mansion;
+                    document.getElementById('turnIntoDragonPP').value = pp;
+                }
+
+                document.getElementById('fantasmicQuantity').addEventListener('input', updateTurnIntoDragonPP);
+                document.getElementById('indianaJonesQuantity').addEventListener('input', updateTurnIntoDragonPP);
+                document.getElementById('mansionQuantity').addEventListener('input', updateTurnIntoDragonPP);
+
+                // Initialize PP on page load
+                updateTurnIntoDragonPP();
+            </script>
+        </form>
+        <li>Turn Enemy into a Frog: Increase the damage of your next attack by a quarter</li>
+        <form id="TurnEnemyIntoFrog">
+            <label for="splashQuantity">Splash Mountain:</label>
+            <input type="number" id="splashQuantity" name="splashQuantity" min="0" value="0">
+            <label for="poohQuantity">Pooh Bear:</label>
+            <input type="number" id="poohQuantity" name="poohQuantity" min="0" value="0">
+            <label for="grizzlyQuantity">Grizzly River Run:</label>
+            <input type="number" id="grizzlyQuantity" name="grizzlyQuantity" min="0" value="0">
+            <label for="turnEnemyIntoFrogPP">PP:</label>
+            <input type="text" id="turnEnemyIntoFrogPP" name="turnEnemyIntoFrogPP" readonly>
+            <script>
+                function updateTurnEnemyIntoFrogPP() {
+                    const splash = parseInt(document.getElementById('splashQuantity').value) || 0;
+                    const pooh = parseInt(document.getElementById('poohQuantity').value) || 0;
+                    const grizzly = parseInt(document.getElementById('grizzlyQuantity').value) || 0;
+                    const pp = splash + pooh + grizzly;
+                    document.getElementById('turnEnemyIntoFrogPP').value = pp;
+                }
+
+                document.getElementById('splashQuantity').addEventListener('input', updateTurnEnemyIntoFrogPP);
+                document.getElementById('poohQuantity').addEventListener('input', updateTurnEnemyIntoFrogPP);
+                document.getElementById('grizzlyQuantity').addEventListener('input', updateTurnEnemyIntoFrogPP);
+
+                // Initialize PP on page load
+                updateTurnEnemyIntoFrogPP();
+            </script>
+        </form>
+        <li>A Llamma?! He's Supposed to Be Dead!: Steal an Accessory from your Opponent</li>
+        <form id="Llamma">
+            <label for="monorailQuantity">Monorail:</label>
+            <input type="number" id="monorailQuantity" name="monorailQuantity" min="0" value="0">
+            <label for="jellyfishQuantity">Jumping Jellyfish:</label>
+            <input type="number" id="jellyfishQuantity" name="jellyfishQuantity" min="0" value="0">
+            <label for="emotionalQuantity">Emotional Whirlwind:</label>
+            <input type="number" id="emotionalQuantity" name="emotionalQuantity" min="0" value="0">
+            <label for="llamaPP">PP:</label>
+            <input type="text" id="llamaPP" name="llamaPP" readonly>
+            <script>
+                function updateLlamaPP() {
+                    const monorail = parseInt(document.getElementById('monorailQuantity').value) || 0;
+                    const jellyfish = parseInt(document.getElementById('jellyfishQuantity').value) || 0;
+                    const emotional = parseInt(document.getElementById('emotionalQuantity').value) || 0;
+                    const pp = monorail + jellyfish + emotional;
+                    document.getElementById('llamaPP').value = pp;
+                }
+
+                document.getElementById('monorailQuantity').addEventListener('input', updateLlamaPP);
+                document.getElementById('jellyfishQuantity').addEventListener('input', updateLlamaPP);
+                document.getElementById('emotionalQuantity').addEventListener('input', updateLlamaPP);
+
+                // Initialize PP on page load
+                updateLlamaPP();
+            </script>
+        </form>
+
+    </ul>
+    <p>Weapons:</p>
+    <ul>
+        <li>Dagger to the Back: 2 base attack</li>
+        <form id="DaggerToTheBack">
+            <label for="smugglersQuantity">Smuggler's Run:</label>
+            <input type="number" id="smugglersQuantity" name="smugglersQuantity" min="0" value="0">
+            <label for="riseQuantity">Rise of the Resistance:</label>
+            <input type="number" id="riseQuantity" name="riseQuantity" min="0" value="0">
+            <label for="zephyrQuantity">Zephyr:</label>
+            <input type="number" id="zephyrQuantity" name="zephyrQuantity" min="0" value="0">
+            <label for="soaringQuantity">Soaring:</label>
+            <input type="number" id="soaringQuantity" name="soaringQuantity" min="0" value="0">
+            <label for="daggerPP">PP:</label>
+            <input type="text" id="daggerPP" name="daggerPP" readonly>
+            <script>
+                function updateDaggerPP() {
+                    const smugglers = parseInt(document.getElementById('smugglersQuantity').value) || 0;
+                    const rise = parseInt(document.getElementById('riseQuantity').value) || 0;
+                    const zephyr = parseInt(document.getElementById('zephyrQuantity').value) || 0;
+                    const soaring = parseInt(document.getElementById('soaringQuantity').value) || 0;
+                    const pp = smugglers + rise + zephyr + soaring;
+                    document.getElementById('daggerPP').value = pp;
+                }
+
+                document.getElementById('smugglersQuantity').addEventListener('input', updateDaggerPP);
+                document.getElementById('riseQuantity').addEventListener('input', updateDaggerPP);
+                document.getElementById('zephyrQuantity').addEventListener('input', updateDaggerPP);
+                document.getElementById('soaringQuantity').addEventListener('input', updateDaggerPP);
+
+                // Initialize PP on page load
+                updateDaggerPP();
+            </script>
+        </form>
+        <li>Poisoned Apple: 2 base attack</li>
+        <form id="PoisonedApple">
+            <label for="aliceQuantity">Alice in Wonderland:</label>
+            <input type="number" id="aliceQuantity" name="aliceQuantity" min="0" value="0">
+            <label for="teacupQuantity">Teacups:</label>
+            <input type="number" id="teacupQuantity" name="teacupQuantity" min="0" value="0">
+            <label for="autotopiaQuantity">Autotopia:</label>
+            <input type="number" id="autotopiaQuantity" name="autotopiaQuantity" min="0" value="0">
+            <label for="snowWhiteQuantity">Snow White:</label>
+            <input type="number" id="snowWhiteQuantity" name="snowWhiteQuantity" min="0" value="0">
+            <label for="poisonedApplePP">PP:</label>
+            <input type="text" id="poisonedApplePP" name="poisonedApplePP" readonly>
+            <script>
+                function updatePoisonedApplePP() {
+                    const alice = parseInt(document.getElementById('aliceQuantity').value) || 0;
+                    const teacup = parseInt(document.getElementById('teacupQuantity').value) || 0;
+                    const autotopia = parseInt(document.getElementById('autotopiaQuantity').value) || 0;
+                    const snowWhite = parseInt(document.getElementById('snowWhiteQuantity').value) || 0;
+                    const pp = alice + teacup + autotopia + snowWhite
+                    document.getElementById('poisonedApplePP').value = pp;
+                }
+
+                document.getElementById('aliceQuantity').addEventListener('input', updatePoisonedApplePP);
+                document.getElementById('teacupQuantity').addEventListener('input', updatePoisonedApplePP);
+                document.getElementById('autotopiaQuantity').addEventListener('input', updatePoisonedApplePP);
+                document.getElementById('snowWhiteQuantity').addEventListener('input', updatePoisonedApplePP);
+
+                // Initialize PP on page load
+                updatePoisonedApplePP();
+            </script>
+        </form>
+        <li>Gun: 2 base attack</li>
+        <form id="Gun">
+            <label for="buzzQuantity">Astro Blasters:</label>
+            <input type="number" id="buzzQuantity" name="buzzQuantity" min="0" value="0">
+            <label for="rogerQuantity">Roger Rabbit:</label>
+            <input type="number" id="rogerQuantity" name="rogerQuantity" min="0" value="0">
+            <label for="shootinQuantity">Shootin' Exposition:</label>
+            <input type="number" id="shootinQuantity" name="shootinQuantity" min="0" value="0">
+            <label for="submarineQuantity">Submarines:</label>
+            <input type="number" id="submarineQuantity" name="submarineQuantity" min="0" value="0">
+            <label for="gunPP">PP:</label>
+            <input type="text" id="gunPP" name="gunPP" readonly>
+            <script>
+                function updateGunPP() {
+                    const buzz = parseInt(document.getElementById('buzzQuantity').value) || 0;
+                    const roger = parseInt(document.getElementById('rogerQuantity').value) || 0;
+                    const shootin = parseInt(document.getElementById('shootinQuantity').value) || 0;
+                    const submarine = parseInt(document.getElementById('submarineQuantity').value) || 0;
+                    const pp = buzz + roger + shootin + submarine;
+                    document.getElementById('gunPP').value = pp;
+                }
+
+                document.getElementById('buzzQuantity').addEventListener('input', updateGunPP);
+                document.getElementById('rogerQuantity').addEventListener('input', updateGunPP);
+                document.getElementById('shootinQuantity').addEventListener('input', updateGunPP);
+                document.getElementById('submarineQuantity').addEventListener('input', updateGunPP);
+
+                // Initialize PP on page load
+                updateGunPP();
+            </script>
+        </form>
+        <li>Fireball: 2 base attack</li>
+        <form id="Fireball">
+            <label for="starToursQuantity">Star Tours:</label>
+            <input type="number" id="starToursQuantity" name="starToursQuantity" min="0" value="0">
+            <label for="wocQuantity">World of Color:</label>
+            <input type="number" id="wocQuantity" name="wocQuantity" min="0" value="0">
+            <label for="jesseQuantity">Jessie's Critter Carousel:</label>
+            <input type="number" id="jesseQuantity" name="jesseQuantity" min="0" value="0">
+            <label for="caseyQuantity">Casey's Train:</label>
+            <input type="number" id="caseyQuantity" name="caseyQuantity" min="0" value="0">
+            <label for="fireballPP">PP:</label>
+            <input type="text" id="fireballPP" name="fireballPP" readonly>
+            <script>
+                function updateFireballPP() {
+                    const fireball = parseInt(document.getElementById('starToursQuantity').value) || 0;
+                    const woc = parseInt(document.getElementById('wocQuantity').value) || 0;
+                    const jesse = parseInt(document.getElementById('jesseQuantity').value) || 0;
+                    const casey = parseInt(document.getElementById('caseyQuantity').value) || 0;
+                    const pp = fireball + woc + jesse + casey;
+                    document.getElementById('fireballPP').value = pp;
+                }
+
+                document.getElementById('starToursQuantity').addEventListener('input', updateFireballPP);
+                document.getElementById('wocQuantity').addEventListener('input', updateFireballPP);
+                document.getElementById('jesseQuantity').addEventListener('input', updateFireballPP);
+                document.getElementById('caseyQuantity').addEventListener('input', updateFireballPP);
+
+                // Initialize PP on page load
+                updateFireballPP();
+            </script>
+        </form>
+        <li>Dark Army: 5 base attack</li>
+        <form id="DarkArmy">
+            <label for="jungleQuantity">Jungle Cruise:</label>
+            <input type="number" id="jungleQuantity" name="jungleQuantity" min="0" value="0">
+            <label for="merryQuantity">Merry Go Round:</label>
+            <input type="number" id="merryQuantity" name="merryQuantity" min="0" value="0">
+            <label for="smallWorldQuantity">It's a Small World:</label>
+            <input type="number" id="smallWorldQuantity" name="smallWorldQuantity" min="0" value="0">
+            <label for="materQuantity">Mater's Junkyard:</label>
+            <input type="number" id="materQuantity" name="materQuantity" min="0" value="0">
+            <label for="darkArmyPP">PP:</label>
+            <input type="text" id="darkArmyPP" name="darkArmyPP" readonly>
+            <script>
+                function updateDarkArmyPP() {
+                    const jungle = parseInt(document.getElementById('jungleQuantity').value) || 0;
+                    const merry = parseInt(document.getElementById('merryQuantity').value) || 0;
+                    const smallWorld = parseInt(document.getElementById('smallWorldQuantity').value) || 0;
+                    const mater = parseInt(document.getElementById('materQuantity').value) || 0;
+                    const pp = jungle + merry + smallWorld + mater;
+                    document.getElementById('darkArmyPP').value = pp;
+                }
+
+                document.getElementById('jungleQuantity').addEventListener('input', updateDarkArmyPP);
+                document.getElementById('merryQuantity').addEventListener('input', updateDarkArmyPP);
+                document.getElementById('smallWorldQuantity').addEventListener('input', updateDarkArmyPP);
+                document.getElementById('materQuantity').addEventListener('input', updateDarkArmyPP);
+
+                // Initialize PP on page load
+                updateDarkArmyPP();
+            </script>
+        </form>
+        <li>Bitch Ass Villain Song: 5 base attack</li>
+        <form id="BitchAssVillainSong">
+            <label for="piratesQuantity">Pirates of the Caribbean:</label>
+            <input type="number" id="piratesQuantity" name="piratesQuantity" min="0" value="0">
+            <label for="arielQuantity">Ariel's:</label>
+            <input type="number" id="arielQuantity" name="arielQuantity" min="0" value="0">
+            <label for="swingsQuantity">Swings:</label>
+            <input type="number" id="swingsQuantity" name="swingsQuantity" min="0" value="0">
+            <label for="luigiQuantity">Luigi's:</label>
+            <input type="number" id="luigiQuantity" name="luigiQuantity" min="0" value="0">
+            <label for="tikkiQuantity">Tikki Room:</label>
+            <input type="number" id="tikkiQuantity" name="tikkiQuantity" min="0" value="0">
+            <label for="bitchAssVillainSongPP">PP:</label>
+            <input type="text" id="bitchAssVillainSongPP" name="bitchAssVillainSongPP" readonly>
+            <script>
+                function updateBitchAssVillainSongPP() {
+                    const pirates = parseInt(document.getElementById('piratesQuantity').value) || 0;
+                    const ariel = parseInt(document.getElementById('arielQuantity').value) || 0;
+                    const swings = parseInt(document.getElementById('swingsQuantity').value) || 0;
+                    const luigi = parseInt(document.getElementById('luigiQuantity').value) || 0;
+                    const tikki = parseInt(document.getElementById('tikkiQuantity').value) || 0;
+                    const pp = pirates + ariel + swings + luigi + tikki;
+                    document.getElementById('bitchAssVillainSongPP').value = pp;
+                }
+
+                document.getElementById('piratesQuantity').addEventListener('input', updateBitchAssVillainSongPP);
+                document.getElementById('arielQuantity').addEventListener('input', updateBitchAssVillainSongPP);
+                document.getElementById('swingsQuantity').addEventListener('input', updateBitchAssVillainSongPP);
+                document.getElementById('luigiQuantity').addEventListener('input', updateBitchAssVillainSongPP);
+                document.getElementById('tikkiQuantity').addEventListener('input', updateBitchAssVillainSongPP);
+
+                // Initialize PP on page load
+                updateBitchAssVillainSongPP();
+            </script>
+        </form>
+        <li>Evil Laugh: 5 base attack</li>
+        <form id="EvilLaugh">
+            <label for="goofyQuantity">Goofy's Sky School:</label>
+            <input type="number" id="goofyQuantity" name="goofyQuantity" min="0" value="0">
+            <label for="mickeyQuantity">Runaway Railroad:</label>
+            <input type="number" id="mickeyQuantity" name="mickeyQuantity" min="0" value="0">
+            <label for="goQuantity">GoCoaster:</label>
+            <input type="number" id="goQuantity" name="goQuantity" min="0" value="0">
+            <label for="storybookQuantity">Storybook Boats:</label>
+            <input type="number" id="storybookQuantity" name="storybookQuantity" min="0" value="0">
+            <label for="evilLaughPP">PP:</label>
+            <input type="text" id="evilLaughPP" name="evilLaughPP" readonly>
+            <script>
+                function updateEvilLaughPP() {
+                    const goofy = parseInt(document.getElementById('goofyQuantity').value) || 0;
+                    const mickey = parseInt(document.getElementById('mickeyQuantity').value) || 0;
+                    const go = parseInt(document.getElementById('goQuantity').value) || 0;
+                    const storybook = parseInt(document.getElementById('storybookQuantity').value) || 0;
+                    const pp = goofy + mickey + go + storybook;
+                    document.getElementById('evilLaughPP').value = pp;
+                }
+
+                document.getElementById('goofyQuantity').addEventListener('input', updateEvilLaughPP);
+                document.getElementById('mickeyQuantity').addEventListener('input', updateEvilLaughPP);
+                document.getElementById('goQuantity').addEventListener('input', updateEvilLaughPP);
+                document.getElementById('storybookQuantity').addEventListener('input', updateEvilLaughPP);
+
+                // Initialize PP on page load
+                updateEvilLaughPP();
+            </script>
+        </form>
+    </ul>
+</div>
+</body>
+</html>
