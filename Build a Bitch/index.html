@@ -9,13 +9,50 @@
 <body>
     <h1>Welcome to Disneyland you Evil Fiend</h1>
     <h3>Create your own villain by frollicking around the park!</h3>
-    <p>Go on rides to unlock spells, weapons, and accessories to aid you in your villainous deeds! Repeating rides adds additional PP to each weapon or spell. Gain additional base HP everytime you eat and add one 10 HP health potion to your inventory everytime you have a fun little beverage. Gain XP for waiting in lines, interacting with characters, and taking in a show or parade, you will level up and add 2 attack points to your base attack every 50 XP.</p>
+    <p>Go on rides to unlock spells, weapons, and tools to aid you in your villainous deeds! Repeating rides adds additional PP to each weapon or spell. Gain additional base HP everytime you eat and add one 10 HP health potion to your inventory everytime you have a fun little beverage. Gain XP for waiting in lines, interacting with characters, and taking in a show or parade.</p>
 <div id="XP Tracker">
     <h4>XP Tracker</h4>
-    <p>Earn 1 XP for every minute you wait in line, 10 XP for watching a show or parade, and 20 XP for interacting with characters.</p>
-    <p>Current XP: 0</p>
-    <p>Current Level: 1</p>
-    <p>Current Base Attack: 5</p>
+    <p>Earn 1 XP for every minute you wait in line, 10 XP for watching a show or parade, and 20 XP for interacting with characters. Level up and add 2 attack points to your base attack every 50 XP.</p>
+    <form id="XPMinutes">
+        <label for="minutesQuantity">Minutes in Line:</label>
+        <input type="number" id="minutesQuantity" name="minutesQuantity" min="0" value="0">
+        <label for="showsQuantity">Shows/Parades Watched:</label>
+        <input type="number" id="showsQuantity" name="showsQuantity" min="0" value="0">
+        <label for="charactersQuantity">Character Interactions:</label>
+        <input type="number" id="charactersQuantity" name="charactersQuantity" min="0" value="0">
+        <label id="currentXP">Current XP: </label>
+        <script>
+            function updateXP() {
+                const minutes = parseInt(document.getElementById('minutesQuantity').value) || 0;
+                const shows = parseInt(document.getElementById('showsQuantity').value) || 0;
+                const characters = parseInt(document.getElementById('charactersQuantity').value) || 0;
+                const totalXP = minutes + (shows * 10) + (characters * 20);
+                document.getElementById('currentXP').innerText = `Current XP: ${totalXP}`;
+            }
+
+            document.getElementById('XPMinutes').addEventListener('input', updateXP);
+        </script>
+        <label id="currentLevel">Current Level: </label>
+        <script>
+            function updateLevel() {
+                const xp = parseInt(document.getElementById('currentXP').innerText.split(': ')[1]) || 0;
+                const level = Math.floor(xp / 50) + 1;
+                document.getElementById('currentLevel').innerText = `Current Level: ${level}`;
+            }
+
+            document.getElementById('XPMinutes').addEventListener('input', updateLevel);
+        </script>
+        <label id="baseAttack">Current Base Attack: </label>
+        <script>
+            function updateBaseAttack() {
+                const level = parseInt(document.getElementById('currentLevel').innerText.split(': ')[1]) || 1;
+                const baseAttack = 5 + (level - 1) * 2;
+                document.getElementById('baseAttack').innerText = `Current Base Attack: ${baseAttack}`;
+            }
+
+            document.getElementById('XPMinutes').addEventListener('input', updateBaseAttack);
+        </script>
+        </form>
 </div>
 <div id="HP Tracker">
     <h4>HP Tracker</h4>
@@ -48,8 +85,7 @@
 <div id="Inventory">
     <h4>Inventory</h4>
     <p>Spells:</p>
-    <ul>
-        <li>Change Own Form: Take quarter damage for one turn</li>
+        <h5>Change Own Form: Take quarter damage for one turn</h5>
         <form id="ChangeOwnForm">
             <label for="rocketsQuantity">Revolving Rockets:</label>
             <input type="number" id="rocketsQuantity" name="rocketsQuantity" min="0" value="0"> 
@@ -76,7 +112,7 @@
                 updateChangeOwnFormPP();
             </script>
         </form>
-        <li>Coma Curse: Put your enemies into a deep slumber for one turn</li>
+        <h5>Coma Curse: Put your enemies into a deep slumber for one turn</h5>
         <form id="ComaCurse">
             <label for="peterPanQuantity">Peter Pan:</label>
             <input type="number" id="peterPanQuantity" name="peterPanQuantity" min="0" value="0">
@@ -103,7 +139,7 @@
                 updateComaCursePP();
             </script>
         </form>
-        <li>Cult Inspiring Charisma: Take half damage from all sources for one turn</li>
+        <h5>Cult Inspiring Charisma: Take half damage from all sources for one turn</h5>
         <form id="CultInspiringCharisma">
             <label for="towerQuantity">Tower of Terror/Guardians Ride:</label>
             <input type="number" id="towerQuantity" name="towerQuantity" min="0" value="0">
@@ -130,7 +166,7 @@
                 updateCultInspiringCharismaPP();
             </script>
         </form>
-        <li>Turn into a Dragon: Double the damage of your next attack</li>
+        <h5>Turn into a Dragon: Double the damage of your next attack</h5>
         <form id="TurnIntoDragon">
             <label for="fantasmicQuantity">Fantasmic:</label>
             <input type="number" id="fantasmicQuantity" name="fantasmicQuantity" min="0" value="0">
@@ -157,22 +193,19 @@
                 updateTurnIntoDragonPP();
             </script>
         </form>
-        <li>Turn Enemy into a Frog: Increase the damage of your next attack by a quarter</li>
+        <h5>Turn Enemy into a Frog: Increase the damage of your next attack by a quarter</h5>
         <form id="TurnEnemyIntoFrog">
             <label for="splashQuantity">Splash Mountain:</label>
             <input type="number" id="splashQuantity" name="splashQuantity" min="0" value="0">
             <label for="poohQuantity">Pooh Bear:</label>
             <input type="number" id="poohQuantity" name="poohQuantity" min="0" value="0">
-            <label for="grizzlyQuantity">Grizzly River Run:</label>
-            <input type="number" id="grizzlyQuantity" name="grizzlyQuantity" min="0" value="0">
             <label for="turnEnemyIntoFrogPP">PP:</label>
             <input type="text" id="turnEnemyIntoFrogPP" name="turnEnemyIntoFrogPP" readonly>
             <script>
                 function updateTurnEnemyIntoFrogPP() {
                     const splash = parseInt(document.getElementById('splashQuantity').value) || 0;
                     const pooh = parseInt(document.getElementById('poohQuantity').value) || 0;
-                    const grizzly = parseInt(document.getElementById('grizzlyQuantity').value) || 0;
-                    const pp = splash + pooh + grizzly;
+                    const pp = splash + pooh;
                     document.getElementById('turnEnemyIntoFrogPP').value = pp;
                 }
 
@@ -184,7 +217,7 @@
                 updateTurnEnemyIntoFrogPP();
             </script>
         </form>
-        <li>A Llamma?! He's Supposed to Be Dead!: Steal an Accessory from your Opponent</li>
+        <h5>A Llamma?! He's Supposed to Be Dead!: Steal a Tool from your Opponent</h5>
         <form id="Llamma">
             <label for="monorailQuantity">Monorail:</label>
             <input type="number" id="monorailQuantity" name="monorailQuantity" min="0" value="0">
@@ -212,10 +245,8 @@
             </script>
         </form>
 
-    </ul>
     <p>Weapons:</p>
-    <ul>
-        <li>Dagger to the Back: 2 base attack</li>
+        <h5>Dagger to the Back: 2 base attack</h5>
         <form id="DaggerToTheBack">
             <label for="smugglersQuantity">Smuggler's Run:</label>
             <input type="number" id="smugglersQuantity" name="smugglersQuantity" min="0" value="0">
@@ -246,7 +277,7 @@
                 updateDaggerPP();
             </script>
         </form>
-        <li>Poisoned Apple: 2 base attack</li>
+        <h5>Poisoned Apple: 2 base attack</h5>
         <form id="PoisonedApple">
             <label for="aliceQuantity">Alice in Wonderland:</label>
             <input type="number" id="aliceQuantity" name="aliceQuantity" min="0" value="0">
@@ -277,7 +308,7 @@
                 updatePoisonedApplePP();
             </script>
         </form>
-        <li>Gun: 2 base attack</li>
+        <h5>Gun: 2 base attack</h5>
         <form id="Gun">
             <label for="buzzQuantity">Astro Blasters:</label>
             <input type="number" id="buzzQuantity" name="buzzQuantity" min="0" value="0">
@@ -308,7 +339,7 @@
                 updateGunPP();
             </script>
         </form>
-        <li>Fireball: 2 base attack</li>
+        <h5>Fireball: 2 base attack</h5>
         <form id="Fireball">
             <label for="starToursQuantity">Star Tours:</label>
             <input type="number" id="starToursQuantity" name="starToursQuantity" min="0" value="0">
@@ -339,7 +370,7 @@
                 updateFireballPP();
             </script>
         </form>
-        <li>Dark Army: 5 base attack</li>
+        <h5>Dark Army: 5 base attack</h5>
         <form id="DarkArmy">
             <label for="jungleQuantity">Jungle Cruise:</label>
             <input type="number" id="jungleQuantity" name="jungleQuantity" min="0" value="0">
@@ -370,7 +401,7 @@
                 updateDarkArmyPP();
             </script>
         </form>
-        <li>Bitch Ass Villain Song: 5 base attack</li>
+        <h5>Bitchin Ass Villain Song: 5 base attack</h5>
         <form id="BitchAssVillainSong">
             <label for="piratesQuantity">Pirates of the Caribbean:</label>
             <input type="number" id="piratesQuantity" name="piratesQuantity" min="0" value="0">
@@ -405,7 +436,7 @@
                 updateBitchAssVillainSongPP();
             </script>
         </form>
-        <li>Evil Laugh: 5 base attack</li>
+        <h5>Evil Laugh: 5 base attack</h5>
         <form id="EvilLaugh">
             <label for="goofyQuantity">Goofy's Sky School:</label>
             <input type="number" id="goofyQuantity" name="goofyQuantity" min="0" value="0">
@@ -436,7 +467,14 @@
                 updateEvilLaughPP();
             </script>
         </form>
-    </ul>
+    <p>Tools earned by riding E-Tickets</p>
+    <h5>Head Gear: Space Mountain</h5>
+    <h5>Evil Amulets: Thunder Mountain</h5>
+    <h5>Handy Belt: Incredicaster</h5>
+    <h5>Holster: Midway Mania</h5>
+    <h5>Boots: Grizzly River Run</h5>
+    <h5>Evil Sceptor: Racers</h5>
+    <h5>Evil Sidekick: Animation Academy</h5>
 </div>
 </body>
 </html>
